@@ -1,0 +1,5 @@
+package come.yychat.model;
+
+public class User {
+
+}

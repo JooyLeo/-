@@ -33,8 +33,12 @@ public class FriendList extends JFrame implements ActionListener,MouseListener{/
  JButton blackListJButton1;
  JButton blackListJButton2;
  
- public FriendList(){
-  //我的好友卡片
+ String userName;
+ public FriendList(String userName){
+	 this.userName=userName;//局部变量给成员变量的userName赋值
+ 
+	 
+	 //我的好友卡片
   
   myFriendPanel=new JPanel(new BorderLayout());//边界布局
   //System.out.printin(myFriendPanel.getLayou());
@@ -106,12 +110,14 @@ public class FriendList extends JFrame implements ActionListener,MouseListener{/
   this.add(myStrangerPanel,"2");
   this.add(myblackListPanel,"3");
   this.setSize(250,500);
+  this.setTitle(userName+"的好友列表");
   this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+  this.setLocationRelativeTo(null);
   this.setVisible(true);
  }
  
  public static void main(String[] args){
-  FriendList friendList=new FriendList();
+  //FriendList friendList=new FriendList();
   
  }
  
@@ -164,7 +170,12 @@ public void mousePressed(MouseEvent arg0) {
 }
 @Override
 public void mouseReleased(MouseEvent arg0) {
- // TODO Auto-generated method stub
+	if(arg0.getClickCount()==2){
+		JLabel jlbl=(JLabel)arg0.getSource();
+		String receiver=jlbl.getText();
+		arg0.getSource();
+		new friendChat(this.userName,receiver);
+	}
  
 }
 }

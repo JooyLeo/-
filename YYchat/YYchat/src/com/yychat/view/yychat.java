@@ -7,19 +7,28 @@
  */
 package com.yychat.view;
 
+import java.awt.Color;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.EventObject;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 
-public class yychat extends JFrame{//类名：yychat 模板，对象的模板
+import com.yychat.model.Message;
+import com.yychat.model.User;
+import com.yychatclient.control.ClientConnect;
+
+public class yychat extends JFrame implements ActionListener{//类名：yychat 模板，对象的模板
 	
 	JLabel jlbl1;//定义标签,北部图片
 	
@@ -51,15 +60,15 @@ public class yychat extends JFrame{//类名：yychat 模板，对象的模板
 		
 		//中部组件的选项卡一：
 		jp2=new JPanel(new GridLayout(3,3));//布局的问题
-		jlbl2=new JLabel("YY号码");
-		jlbl3=new JLabel("YY密码");
+		jlbl2=new JLabel("YY号码：");
+		jlbl3=new JLabel("YY密码：");
 		jlbl4=new JLabel("忘记密码");
 		jlbl5=new JLabel("申请密码保护");
 		jb4=new JButton (new ImageIcon("images/clear.gif"));
 		jcb1=new JCheckBox("隐身登陆");
 		jcb2=new JCheckBox("记住密码");
-		jtf1=new JTextField("请输入YY号码");
-		jpf1=new JPasswordField ("请输入密码");
+		jtf1=new JTextField(" ");
+		jpf1=new JPasswordField ("");
 		//组件一布局
 		jp2.add(jlbl2);jp2.add(jtf1);jp2.add(jb4);
 		jp2.add(jlbl3);jp2.add(jpf1);jp2.add(jlbl4);
@@ -70,6 +79,7 @@ public class yychat extends JFrame{//类名：yychat 模板，对象的模板
 		
 		//创建南部组件
 		jb1=new JButton(new ImageIcon("images/denglu.gif"));
+		jb1.addActionListener(this);
 		jb2=new JButton(new ImageIcon("images/zhuce.gif"));
 		jb3=new JButton(new ImageIcon("images/quxiao.gif"));
 		
@@ -80,10 +90,37 @@ public class yychat extends JFrame{//类名：yychat 模板，对象的模板
 		
 		this.setSize(350,240); //设置窗口大小
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setLocationRelativeTo(null);
 		this.setVisible(true);
 	}
 	
 	public static void main(String[] args){
 		yychat yychat=new yychat();
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent arg0) {
+		
+		
+		if(arg0.getSource()==jb1){
+			String userName = jtf1.getText().trim();
+			String passWord=new String(jpf1.getPassword());
+			//创建User对象
+			User user=new User();
+		    user.setUserName(userName);
+			user.setPassWord(passWord);
+			
+			Message mess=new ClientConnect().loginValidate(user);
+			if(mess.getMessageType().equals(Message.message_LoginSuccess)){
+				new FriendList(userName);
+				this.dispose();
+			}else{
+				JOptionPane.showMessageDialog(this, "密码错误");
+			}
+			
+			
+			this.dispose();
+		}
+		
 	}
 }

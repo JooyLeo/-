@@ -1,0 +1,38 @@
+package com.yychat.view;
+
+import javax.swing.*;
+
+public class friendChat extends JFrame{
+	
+	//Center部分
+	JScrollPane jsp;
+	JTextArea jta;
+
+	//South部分
+	JPanel jp;
+	JTextField jtf;//一行文本
+	JButton jb;
+	
+	public friendChat(){
+		jta=new JTextArea();//文本区域，多行文本
+		jsp=new JScrollPane(jta);
+		this.add(jsp);
+		
+		jp=new JPanel();
+		jtf=new JTextField(15);
+		jb= new JButton("发送");
+		jp.add(jtf);
+		jp.add(jb);
+		this.add(jp);
+		
+		this.setSize(350,240);//窗口大小
+		//this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);不用这个了，因为发送之后就会关闭
+	    this.setLocationRelativeTo(null);//居中显示窗口);
+	    this.setVisible(true);
+	}
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+	}
+
+}
